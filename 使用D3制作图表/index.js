@@ -24,7 +24,7 @@ var scale_x = d3.scale.linear()
 .range([0,g_width])//输出范围
 var scale_y = d3.scale.linear()
 .domain([0,d3.max(data)])
-.range([0,g_height])
+.range([g_height,0])
 
 
 var line_generator = d3.svg.line()
@@ -35,3 +35,19 @@ var line_generator = d3.svg.line()
 d3.select("g")
 .append("path")
 .attr("d",line_generator(data))//d="M1,0L20,40L40,50L100,100L0,200"
+
+var x_axis = d3.svg.axis().scale(scale_x),
+y_axis = d3.svg.axis().scale(scale_y).orient("left");
+
+g.append("g")
+.call(x_axis)
+.attr("transform","translate(0,"+g_height+")")
+
+g.append("g")
+.call(y_axis)
+.append("text")
+.text("Price($)")
+.attr("transform","rotate(-90)")
+.attr("text-anchor","end")
+.attr("dy","1em")
+
